@@ -1,0 +1,48 @@
+Docker kurulumunun en büyük inceliği, kurulum işlemi için gerekli dosyaları, docker-ce (Docker Community Edition) repository kullanılarak edinilmesini sağlamakır.
+Kurulum öncesinde; varsa daha önceden docker bileşenlerinden kurulu olan dosyaları temizleyerek başlamak gerekebilir. 
+
+Komut: sudo yum -y remove docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-engine
+Veya Alternatif
+
+Komut: sudo yum remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-engine
+Silme işlemini tamamladıktan sonra, yum-config-manager kullanarak Docker-CE repo yükleme işlemini gerçekleştirebilmek için yum-utils ve device-mapper-persistent-data kurulumu yapmamız gerekecektir. Storage driver kurulumu yaparak docker ile diskimizi kullanabilmek için lvm2 kurulumunu gerçekleştirmemiz gerekiyor.
+
+Komut: sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+
+Veya
+
+Komut: sudo yum install -y yum-utils \
+  device-mapper-persistent-data \
+  lvm2
+
+Şimdi Docker-CE repository kurulumunu yapabiliriz.
+
+Komut: sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+Veya
+Komut: sudo yum-config-manager \
+--add-repo \
+https://download.docker.com/linux/centos/docker-ce.repo
+
+Artık Docker kurulumu için güvenilir kaynak Docker repository (Docker-CE) kullanılarak docker kurulumunu gerçekleştirebiliriz
+
+Komut: sudo yum -y install docker-ce docker-ce-cli containerd.io
+
+Kurulum tamamlandıktan sonra, docker servisini başlatabiliriz.
+
+Komut: sudo systemctl start docker
+
+İşletim sistemimiz her açılışta docker servisini başlatsın demek için gereken komut ise;
+
+Komut: sudo systemctl enable docker
+
+Docker servisini kullanımı için kendi kullanıcınıza yetki vermek için aşağıdaki satır işinizi görecektir
+
+Komut: sudo usermod -aG docker $(whoami)
+Kaynak:https://docs.docker.com/
